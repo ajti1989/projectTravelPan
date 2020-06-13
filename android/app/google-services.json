@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1024707386073",
+    "firebase_url": "https://travelplan-65c51.firebaseio.com",
+    "project_id": "travelplan-65c51",
+    "storage_bucket": "travelplan-65c51.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024707386073:android:2dd97c07347ff39904fcc8",
+        "android_client_info": {
+          "package_name": "com.antoniotoledo.travelplan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024707386073-iinbdnk2l988gp6hnbgeaj3f2tftcnav.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.antoniotoledo.travelplan",
+            "certificate_hash": "0e6117ce993e4b879b41b510fe0bfbd9fe9e93c5"
+          }
+        },
+        {
+          "client_id": "1024707386073-hdbb467e1f95kkthuouh230gof64e8mp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmDmGqCPVUclxvHF2c5FpoBhRDckGqkX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1024707386073-hdbb467e1f95kkthuouh230gof64e8mp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
