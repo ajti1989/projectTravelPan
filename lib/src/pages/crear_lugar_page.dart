@@ -27,49 +27,50 @@ class _CrearLugarState extends State<CrearLugar> {
   final Lugar lugarAux = ModalRoute.of(context).settings.arguments;
     FormulariosBloc formularioBloc = Provider.formularioBloc(context);
 
+    //ejecucion si argumento de la pagina anteriro contiene un lugar
     if(lugarAux != null){
       setState(() {
         formularioBloc.changeLugar(lugarAux);
         _lugarFieldNombre.text = formularioBloc.lugar.nombre;
       });
     }
-    
-    // return WillPopScope(
-    //  onWillPop: () async => false,
-      return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back), 
-            onPressed: (){
-              Navigator.of(context).pushReplacementNamed('dia');
-            }
-          ),
-          title: Text('Añadir Lugar'),
+
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back), 
+          onPressed: (){
+            Navigator.of(context).pushReplacementNamed('dia');
+          }
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  _imageHeader(),
-                  _fieldNombreLugar(context, formularioBloc),
-                  SizedBox(height: 30),
-                  _fieldTime(context, formularioBloc),
-                  SizedBox(height: 30),
-                  _botonSubmit(lugarAux)
-                 
-                ],
-              )
-            ),
+        title: Text('Añadir Lugar'),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                _imageHeader(),
+                SizedBox(height: 30),
+                _fieldNombreLugar(context, formularioBloc),
+                SizedBox(height: 30),
+                _fieldTime(context, formularioBloc),
+                SizedBox(height: 30),
+                _botonSubmit(lugarAux)
+               
+              ],
+            )
           ),
-         ),
-      );
+        ),
+       ),
+    );
   }
 
-   Widget _fieldTime(BuildContext context, FormulariosBloc formulariosBloc){
+  //widget creacion campo tiempo
+  Widget _fieldTime(BuildContext context, FormulariosBloc formulariosBloc){
 
      if(formulariosBloc.hora != null){
        setState(() {
@@ -109,7 +110,7 @@ class _CrearLugarState extends State<CrearLugar> {
     );
   }
 
-
+  //widget campo lugar nombre
  Widget _fieldNombreLugar(BuildContext context, FormulariosBloc formulariosBloc){
    
     return TextFormField(
@@ -181,7 +182,7 @@ class _CrearLugarState extends State<CrearLugar> {
       borderRadius: BorderRadius.circular(80),
       child: Container(
         child: Image(
-          image: AssetImage('assets/img/travel.png'),
+          image: AssetImage('assets/img/lugar.png'),
           height: 300,
         ),
       ),
@@ -189,6 +190,7 @@ class _CrearLugarState extends State<CrearLugar> {
 
   }
 
+  //Metodo para formatear una fecha
   String _formatFecha(String hora, DateTime fecha){
 
     String fechaFormat = '';
@@ -199,12 +201,13 @@ class _CrearLugarState extends State<CrearLugar> {
     return fechaFormat;
   }
 
+  //metodo para formatear una hora
   String _horaFormat(String horaString){
     String horaFormat;
     int hora = int.parse(horaString.split(':')[0]);
     int min = int.parse(horaString.split(':')[1]);
     horaFormat = (hora <= 9) ? '0$hora:' : '$hora:';
-    horaFormat += (min <= 0) ? '0$min' : min.toString();
+    horaFormat += (min <= 9) ? '0$min' : min.toString();
     return horaFormat;
   }
 

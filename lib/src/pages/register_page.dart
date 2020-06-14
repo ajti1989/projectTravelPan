@@ -4,7 +4,6 @@ import 'package:project_fly/src/blocs/provider.dart';
 import 'package:project_fly/src/providers/usuario_provider.dart';
 import 'package:project_fly/src/utils/utils.dart';
 
-
 class RegisterPage extends StatelessWidget {
 
   final usuarioProvider = new UsuarioProvider();
@@ -24,9 +23,8 @@ class RegisterPage extends StatelessWidget {
   Widget _crearFondo(BuildContext context){
 
     final size = MediaQuery.of(context).size;
-    
-
     final fondo =  Container(
+
       height: size.height * 0.4,
       width: double.infinity,
       decoration: BoxDecoration(
@@ -50,7 +48,6 @@ class RegisterPage extends StatelessWidget {
         color: Color.fromRGBO(255, 255, 255, 0.05)
       ),
     );
-    
     
     return Stack(
       children: <Widget>[
@@ -80,8 +77,6 @@ class RegisterPage extends StatelessWidget {
 
     final bloc = Provider.of(context);
     final size = MediaQuery.of(context).size;
-
-    
 
     return SingleChildScrollView(
       child: Column(
@@ -116,7 +111,6 @@ class RegisterPage extends StatelessWidget {
                 _crearEmail( bloc ),
                 _crearPassword( bloc ),
                 SizedBox(height: 20.0,),
-
                 _crearPasswordComp(),
                 SizedBox(height: 20.0,),
                 _crearBotton( context, bloc )
@@ -174,10 +168,7 @@ class RegisterPage extends StatelessWidget {
               labelText: 'Password',
               errorText: (snapshot.hasError) ? snapshot.error : null
             ),
-
-          onChanged: (value) => bloc.changePassword(value),
-        
-            
+          onChanged: (value) => bloc.changePassword(value), 
           ),
         );
       }
@@ -197,9 +188,6 @@ class RegisterPage extends StatelessWidget {
       )
     );
   }
-
-
-      
   
   Widget _crearBotton(BuildContext context, LoginBloc bloc) {
 

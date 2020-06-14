@@ -13,9 +13,11 @@ class NewViajePage extends StatefulWidget {
 
 class _NewViajePageState extends State<NewViajePage> {
 
+  //controladores de campo formulario
   final TextEditingController _inputFieldDateControllerStart = new TextEditingController();
   final TextEditingController _inputFieldDateControllerEnd = new TextEditingController();
 
+  //key del formualrio
   final _formKey = GlobalKey<FormState>();
 
   bool submit = false;
@@ -39,7 +41,6 @@ class _NewViajePageState extends State<NewViajePage> {
             key: _formKey,
             child: Column(
               children: <Widget>[
-
                 _imageHeader(),
                 SizedBox(height: 30,),
                 _fieldTravelName(),
@@ -49,9 +50,6 @@ class _NewViajePageState extends State<NewViajePage> {
                 _fieldDateEnd(context, bloc),
                 SizedBox(height: 50,),
                 _botonSubmit( bloc, _viajesBloc ),
-                
-
-
               ],
             ),
           ),
@@ -75,6 +73,7 @@ class _NewViajePageState extends State<NewViajePage> {
 
   }
 
+  //campo formulario nombre
    Widget _fieldTravelName(){
 
     return TextFormField(
@@ -95,6 +94,7 @@ class _NewViajePageState extends State<NewViajePage> {
     );
   }
 
+  //campo formulario fecha inicio
   Widget _fieldDateStart(BuildContext context, NewViajeBloc bloc){
 
         return TextFormField(  
@@ -128,6 +128,8 @@ class _NewViajePageState extends State<NewViajePage> {
         );
   }
 
+
+  //campo formulario fecha fin
   Widget _fieldDateEnd(BuildContext context, NewViajeBloc bloc){
      
         return TextFormField(  
@@ -164,6 +166,7 @@ class _NewViajePageState extends State<NewViajePage> {
         );
   }
 
+  //boton enviar formulario
   Widget _botonSubmit(NewViajeBloc bloc, ViajesBloc viajesBloc){
 
     return RaisedButton(
@@ -177,8 +180,10 @@ class _NewViajePageState extends State<NewViajePage> {
       ),
       onPressed: (!submit) ? () {
 
+        //comprueba errores formulario
         if(!_formKey.currentState.validate()) return;
 
+        //comrpueba que la fecha de inicio no sea superior a la de fin
         if(bloc.dateIni.isAfter(bloc.dateEnd)){
           setState(() {
             afterDate = true;            
@@ -187,8 +192,10 @@ class _NewViajePageState extends State<NewViajePage> {
         }
 
         Viaje viaje = new Viaje(_nombre, bloc.dateIni, bloc.dateEnd);
-        
-       viajesBloc.crearViaje(viaje);
+
+        //Crea y carga el viaje
+        viajesBloc.crearViaje(viaje);
+        viajesBloc.cargarviajes();
         _formKey.currentState.save();
 
         setState(() {submit = true;});

@@ -26,10 +26,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context)  {
-
-  
- 
-    
     return Provider(
       child: MaterialApp(
         localizationsDelegates: [
@@ -58,8 +54,5 @@ class MyApp extends StatelessWidget {
           MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child),
       ),
     );
-    
-    
-    
   }
 }

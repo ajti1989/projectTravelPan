@@ -89,6 +89,7 @@ class _CrearEventoState extends State<CrearEvento> {
     
   }
 
+  //widget boton
   Widget _botonSubmit(BuildContext context){
 
     ViajesBloc viajesBloc = Provider.viajesBloc(context);
@@ -111,6 +112,7 @@ class _CrearEventoState extends State<CrearEvento> {
         
         Evento evento = Evento(_eventoFieldNombre.text, _eventoFieldDescripcion.text);
 
+        //referencias a la base de datos
         DocumentReference refDia = Firestore.instance.collection('travels')
         .document(viajesBloc.viaje.idViaje).collection('dias')
         .document(diaBloc.dia.idDia);
@@ -125,13 +127,14 @@ class _CrearEventoState extends State<CrearEvento> {
     );
   }
 
+    // imagen header
    Widget _imageHeader(){
      
     return ClipRRect(
       borderRadius: BorderRadius.circular(80),
       child: Container(
         child: Image(
-          image: AssetImage('assets/img/travel.png'),
+          image: AssetImage('assets/img/evento.png'),
           height: 300,
         ),
       ),

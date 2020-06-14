@@ -71,6 +71,7 @@ class _DiaPageState extends State<DiaPage> {
     );
   }
 
+  //widget container localidad
   Widget _containerLocalidad( BuildContext context, LocalidadBloc localidadBloc, EventoBloc eventosBloc){
     Localidad localidad = localidadBloc.localidad;
     
@@ -95,6 +96,7 @@ class _DiaPageState extends State<DiaPage> {
     );
   }
 
+  //Widget para mostra la lista de lugares y eventos
   Widget _listaEventosLugares(Localidad localidad){
     return ListView.builder(
       shrinkWrap: true,
@@ -116,48 +118,49 @@ class _DiaPageState extends State<DiaPage> {
     );
   }
 
-//menu
-    _menuOption(BuildContext context){
-    
-      return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20)
+ //menu modal
+  _menuOption(BuildContext context){
+  
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)
+          ),
+          content: Container(
+            height: 130,
+            child: Column(
+              children: <Widget>[
+                ListTile(
+                  title: Text('Añadir Lugar'),
+                  onTap: () => Navigator.pushReplacementNamed(context, 'crearLugar'),
+                ),
+                Divider(),
+                ListTile(
+                  title: Text('Añadir Evento'),
+                  onTap: (){
+                    Navigator.pushReplacementNamed(context, 'crearEvento');
+                  },
+                ),
+                
+              ],
             ),
-            content: Container(
-              height: 130,
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    title: Text('Añadir Lugar'),
-                    onTap: () => Navigator.pushReplacementNamed(context, 'crearLugar'),
-                  ),
-                  Divider(),
-                  ListTile(
-                    title: Text('Añadir Evento'),
-                    onTap: (){
-                      Navigator.pushReplacementNamed(context, 'crearEvento');
-                    },
-                  ),
-                  
-                ],
-              ),
-            ),
-          );
-        },
-      );
+          ),
+        );
+      },
+    );
   }
 
-    Future<Null> _refreshPage(BuildContext context) async {
+  //acción para refrescar la página
+  Future<Null> _refreshPage(BuildContext context) async {
     final duration = new Duration( seconds: 2 );
-
     new Timer(duration, (){
       final viajesBloc = Provider.viajesBloc(context);
       viajesBloc.cargarviajes();
     });
   }
+
 
   String _horaFormat(DateTime fecha){
     String format = '';
