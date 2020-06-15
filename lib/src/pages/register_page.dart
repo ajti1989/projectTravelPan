@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_fly/src/blocs/login_bloc.dart';
-import 'package:project_fly/src/blocs/provider.dart';
 import 'package:project_fly/src/providers/usuario_provider.dart';
 import 'package:project_fly/src/utils/utils.dart';
 
@@ -75,7 +74,7 @@ class RegisterPage extends StatelessWidget {
 
   Widget _loginForm(BuildContext context){
 
-    final bloc = Provider.of(context);
+    final bloc = LoginBloc();
     final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
@@ -111,7 +110,7 @@ class RegisterPage extends StatelessWidget {
                 _crearEmail( bloc ),
                 _crearPassword( bloc ),
                 SizedBox(height: 20.0,),
-                _crearPasswordComp(),
+                _crearPasswordComp( bloc ),
                 SizedBox(height: 20.0,),
                 _crearBotton( context, bloc )
 
@@ -156,7 +155,7 @@ class RegisterPage extends StatelessWidget {
 
   Widget _crearPassword(LoginBloc bloc){
 
-    return StreamBuilder<Object>(
+    return StreamBuilder(
       stream: bloc.passwordStream,
       builder: (context, snapshot) {
         return Container(
@@ -176,23 +175,30 @@ class RegisterPage extends StatelessWidget {
  
   }
 
-  _crearPasswordComp(){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 40.0),
-      child: TextField(
-        obscureText: true,
-        decoration: InputDecoration(
-          icon: Icon(Icons.lock_outline, color: Colors.redAccent,),
-          labelText: 'Password',
-        )
-      )
+  _crearPasswordComp(LoginBloc bloc){
+    return StreamBuilder<String>(
+      stream: bloc.passwordCompStream,
+      builder: (context, snapshot) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 40.0),
+          child: TextField(
+            obscureText: true,
+            onChanged: (value) => bloc.changeCompPassword(value),
+            decoration: InputDecoration(
+              icon: Icon(Icons.lock_outline, color: Colors.redAccent,),
+              labelText: 'Password',
+              errorText: (snapshot.hasError) ? snapshot.error : null,
+            )
+          )
+        );
+      }
     );
   }
   
   Widget _crearBotton(BuildContext context, LoginBloc bloc) {
 
     return StreamBuilder(
-      stream: bloc.formValidStream,
+      stream: bloc.formValidPassStream,
       builder: (context, snapshot) {
         return RaisedButton(
           child: Container(

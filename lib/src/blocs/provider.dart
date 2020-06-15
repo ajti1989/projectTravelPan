@@ -21,15 +21,12 @@ export 'package:project_fly/src/blocs/new_viaje_bloc.dart';
 import 'package:project_fly/src/blocs/viajes_bloc.dart';
 export 'package:project_fly/src/blocs/viajes_bloc.dart';
 
-import 'package:project_fly/src/blocs/login_bloc.dart';
-export 'package:project_fly/src/blocs/login_bloc.dart';
 
 
 //un widget que comparte una variable con todos los hijos widgets sin perder su instancia
 
 class Provider extends InheritedWidget{
 
-  final loginBloc = LoginBloc();
   final newViaje = NewViajeBloc();
   final viajeBloc = ViajesBloc();
   final formulariosBloc = FormulariosBloc();
@@ -45,10 +42,6 @@ class Provider extends InheritedWidget{
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => true; 
 
-
-  static LoginBloc of ( BuildContext context ){
-    return context.dependOnInheritedWidgetOfExactType<Provider>().loginBloc;
-  }
   
   static NewViajeBloc dates ( BuildContext context ){
     return context.dependOnInheritedWidgetOfExactType<Provider>().newViaje;

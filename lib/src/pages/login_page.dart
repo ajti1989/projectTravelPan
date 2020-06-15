@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_fly/src/blocs/provider.dart';
+import 'package:project_fly/src/blocs/login_bloc.dart';
 import 'package:project_fly/src/providers/usuario_provider.dart';
 import 'package:project_fly/src/utils/utils.dart';
 
@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _loginForm(BuildContext context){
 
-    final bloc = Provider.of(context);
+    final bloc = LoginBloc();
     final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
@@ -149,7 +149,6 @@ class _LoginPageState extends State<LoginPage> {
               hintText: 'ejemplo@correo.com',
               labelText: 'Correo Electrónico',
               errorText: (snapshot.hasError) ? snapshot.error : null,
-              counterText: snapshot.data
             ),
             onChanged: (value) => bloc.changeEmail(value),
           ),
@@ -174,7 +173,6 @@ class _LoginPageState extends State<LoginPage> {
               icon: Icon(Icons.lock, color: Colors.redAccent,),
               labelText: 'Password',
               errorText: (snapshot.hasError) ? snapshot.error : null,
-              counterText: snapshot.data
             ),
             onChanged: bloc.changePassword,
           ),
@@ -209,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
     Map info = await usuarioProvider.login(bloc.email, bloc.password);
 
     if(info['ok']){
-      Navigator.pushNamed(context, 'home');
+      Navigator.pushReplacementNamed(context, 'home');
     }else{
       mostrarAlerta(context, info['mensaje']);
     }
@@ -238,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
     Map info =  await usuarioProvider.loginGoogle();
 
     if(info['ok']){
-      Navigator.pushNamed(context, 'home');
+      Navigator.pushReplacementNamed(context, 'home');
     }else{
       mostrarAlerta(context, info['mensaje']);
     }
