@@ -49,7 +49,7 @@ void _onMapCreated(GoogleMapController controller) {
       Marker marker = Marker(
       markerId: MarkerId(lugar.idLugar),
       position: latLngToGeopoint(lugar.coordenadas),
-      infoWindow: InfoWindow(title: lugar.nombre, snippet: 'klkfsdj'),
+      infoWindow: InfoWindow(title: lugar.nombre),
       icon: BitmapDescriptor.defaultMarker
       );
       
