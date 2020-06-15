@@ -4,11 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:project_fly/src/blocs/provider.dart';
+import 'package:project_fly/src/model/localidad_model.dart';
 
 
 class MapPage extends StatelessWidget {
 
-CameraPosition _initialPosition = CameraPosition(target: LatLng(40.4167754, -3.7037902),zoom: 10);
+
 Completer<GoogleMapController> _controller = Completer();
 
 final Set<Marker> _markers = Set();
@@ -21,16 +22,9 @@ void _onMapCreated(GoogleMapController controller) {
   Widget build(BuildContext context) {
 
     final diaBloc = Provider.diaBloc(context);
-    
-    LatLng latLng = LatLng(36.841523, -2.4921361);
-
-
-    _markers.add( Marker(
-      markerId: MarkerId('una marca'),
-      position: latLng,
-      infoWindow: InfoWindow(title: 'aver',snippet: 'klkfsdj'),
-
-    ));
+    //carga las coordenadas de la primera localidad
+    final geopoint = diaBloc.dia.localidades[0].coordenadas; 
+    CameraPosition _initialPosition = CameraPosition(target: LatLng(geopoint.latitude, geopoint.longitude),zoom: 10);
 
     return Scaffold(
       appBar: AppBar(
@@ -44,8 +38,6 @@ void _onMapCreated(GoogleMapController controller) {
         ),
     );
   }
-
-
 
   Set<Marker> _crearMarcas(DiaBloc diaBloc){
     Set<Marker> markers = Set();

@@ -45,7 +45,7 @@ class _DiaPageState extends State<DiaPage> {
               itemCount: localidadBloc.localidades.length,
               itemBuilder: (BuildContext context, int index) {
                 
-                 localidadBloc.changeLocalidad(localidadBloc.localidades[index]);
+                localidadBloc.changeLocalidad(localidadBloc.localidades[index]);
                 return Column(
                   children: <Widget>[
 

@@ -162,6 +162,7 @@ class _CrearLugarState extends State<CrearLugar> {
         if(!_formKey.currentState.validate()) return;
         _formKey.currentState.save();
         
+        //referencia al documnento de la base de datos
         DocumentReference refDia = Firestore.instance.collection('travels')
         .document(viajesBloc.viaje.idViaje).collection('dias')
         .document(diaBloc.dia.idDia);
