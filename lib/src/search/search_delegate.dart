@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project_fly/src/blocs/provider.dart';
 import 'package:project_fly/src/model/lugar_model.dart';
 import 'package:project_fly/src/providers/go_place_provider.dart';
 

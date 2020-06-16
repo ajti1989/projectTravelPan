@@ -1,7 +1,7 @@
   //esquelo formulario
   import 'package:flutter/material.dart';
 
-  _formEvento(BuildContext context, List<Widget> list, String nombre){
+  formEvento(BuildContext context, List<Widget> list, String nombre){
     
       return showDialog(
         context: context,

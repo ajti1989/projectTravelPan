@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:project_fly/src/model/dia_model.dart';
 import 'package:project_fly/src/model/evento_model.dart';
 import 'package:project_fly/src/model/localidad_model.dart';
@@ -9,8 +8,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ViajeProvider {
 
-  final String _url = 'https://travelplan-65c51.firebaseio.com';
-  final _prefs      = new PreferenciasUsuario();
+  // final String _url = 'https://travelplan-65c51.firebaseio.com';
+  final _prefs = new PreferenciasUsuario();
 
   // Crea un viaje en Firestore
   Future<bool> crearViaje( Viaje viaje ) async {

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:project_fly/src/blocs/provider.dart';
 import 'package:project_fly/src/model/viaje_model.dart';
-import 'package:project_fly/src/providers/go_place_provider.dart';
 
 
 

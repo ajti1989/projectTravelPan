@@ -4,15 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:project_fly/src/blocs/provider.dart';
-import 'package:project_fly/src/model/localidad_model.dart';
 
 
 class MapPage extends StatelessWidget {
 
 
-Completer<GoogleMapController> _controller = Completer();
-
-final Set<Marker> _markers = Set();
+final Completer<GoogleMapController> _controller = Completer();
 
 void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_fly/src/model/dia_model.dart';
 
 String viajeToJson(Viaje data) => json.encode(data.toJson());
