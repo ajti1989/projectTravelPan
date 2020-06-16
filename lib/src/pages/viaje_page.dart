@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_fly/src/blocs/provider.dart';
 import 'package:project_fly/src/model/dia_model.dart';
 import 'package:project_fly/src/model/viaje_model.dart';
+import 'package:project_fly/src/utils/utils.dart';
 
 
 class ViajePage extends StatelessWidget {
@@ -47,10 +48,16 @@ class ViajePage extends StatelessWidget {
                         trailing: IconButton(
                           icon: FaIcon(FontAwesomeIcons.mapMarkedAlt), 
                           onPressed: (){
+                            //navega al mapa 
                             diaBLoc.changeDia(diaBLoc.dias[index]);  
-                            Navigator.of(context).pushNamed('mapa');
+                            if(diaBLoc.dia.localidades.length > 0){
+                              Navigator.of(context).pushNamed('mapa');
+                            }else{
+                              mostrarAlerta(context,'Añada una localidad');
+                            }
                           }
                         ),
+                        //navega al itinerario del dia
                         onTap: () {
                           diaBLoc.changeDia(diaBLoc.dias[index]); 
                           Navigator.pushNamed(context, 'dia');
