@@ -49,6 +49,7 @@ android {
         targetSdkVersion 28
         versionCode 2
         versionName "1.0.1"
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -74,7 +75,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-analytics:17.4.3'
 }
 apply plugin: 'com.google.gms.google-services'
 
