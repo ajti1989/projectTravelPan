@@ -44,18 +44,16 @@ class _DiaPageState extends State<DiaPage> {
               child: ListView.builder(
               itemCount: localidadBloc.localidades.length,
               itemBuilder: (BuildContext context, int index) {
-                
                 localidadBloc.changeLocalidad(localidadBloc.localidades[index]);
                 return Column(
                   children: <Widget>[
-
                     _containerLocalidad(context, localidadBloc, eventosBloc),
                     _listaEventosLugares(localidadBloc.localidad)
                    
                   ],
                 );
               },
-          ),
+            ),
             );
           }else{
             return CircularProgressIndicator();
@@ -100,6 +98,7 @@ class _DiaPageState extends State<DiaPage> {
   Widget _listaEventosLugares(Localidad localidad){
     return ListView.builder(
       shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
       itemCount: localidad.eventosLugares.length,
       itemBuilder: (BuildContext context, int index) {
         dynamic eventoLugar = localidad.eventosLugares[index];
@@ -112,7 +111,7 @@ class _DiaPageState extends State<DiaPage> {
           subtitle: (eventoLugar is Lugar)
           ? (eventoLugar.hora != null) ? Text(_horaFormat(eventoLugar.hora)) : Text('')
           : Text(''),
-          onTap: () {}
+         
         );
       }, 
     );
