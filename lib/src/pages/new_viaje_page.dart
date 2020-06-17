@@ -178,7 +178,7 @@ class _NewViajePageState extends State<NewViajePage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20)
       ),
-      onPressed: (!submit) ? () {
+      onPressed: (!submit) ? () async {
 
         //comprueba errores formulario
         if(!_formKey.currentState.validate()) return;

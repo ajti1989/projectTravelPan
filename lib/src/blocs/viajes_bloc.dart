@@ -19,7 +19,7 @@ class ViajesBloc {
   
   /////////// CARGAS ////////////
 
-  void cargarviajes() async {
+  Future<Null> cargarviajes() async {
     final viajes = await _viajesProvider.viajesUsuario();
     _viajesController.sink.add( viajes );
   }
