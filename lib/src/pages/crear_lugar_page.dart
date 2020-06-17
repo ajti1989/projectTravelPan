@@ -172,7 +172,7 @@ class _CrearLugarState extends State<CrearLugar> {
         lugarAux.hora = horaLugar;
         lugarBloc.crearLugar(refLocalidad, lugarAux);
         diaBloc.cargarDia(refDia);
-     
+        viajesBloc.cargarViajeId(viajesBloc.viaje.idViaje);
         Navigator.of(context).popUntil(ModalRoute.withName('dia'));
       }
     );

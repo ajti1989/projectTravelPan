@@ -195,11 +195,12 @@ class _NewViajePageState extends State<NewViajePage> {
 
         //Crea y carga el viaje
         viajesBloc.crearViaje(viaje);
-        viajesBloc.cargarviajes();
+        
         _formKey.currentState.save();
 
         setState(() {submit = true;});
 
+        viajesBloc.cargarviajes();
         Navigator.of(context).pushReplacementNamed('home');
 
       } : null

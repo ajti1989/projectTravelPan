@@ -47,7 +47,7 @@ class SearchLocalidad extends SearchDelegate{
   // Crea resultados
   @override
   Widget buildResults(BuildContext context) {
-    query = 'hkh';
+    query = '';
     return Container();
   }
 
@@ -76,6 +76,7 @@ class SearchLocalidad extends SearchDelegate{
                 subtitle: Text(sitio['descripcion']),                
                 leading: Icon(Icons.place),
 
+                //accion para crear localidad
                 onTap: () async {
                  
                   Localidad localidad = await goPlaceProvider.localidadId(sitio['idPlace']);
@@ -87,6 +88,7 @@ class SearchLocalidad extends SearchDelegate{
 
                   // diaBloc.addLocalidad(localidad);
                   diaBloc.cargarDia(refDia);
+                  viajesBloc.cargarViajeId(viajesBloc.viaje.idViaje);
 
                   Navigator.of(context).maybePop();
                 }
