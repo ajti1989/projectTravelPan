@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:project_fly/src/model/dia_model.dart';
 
 String viajeToJson(Viaje data) => json.encode(data.toJson());
@@ -25,10 +27,8 @@ class Viaje{
 
     this.idViaje = '';
     this.nombre = map['nombre']; 
-    this.fechaIni = DateTime.now();
-    this.fechaFin = DateTime.now();
-    // this.fechaIni = (map['fechaIni'] as Timestamp).toDate();
-    // this.fechaFin = (map['fechaFin'] as Timestamp).toDate();
+    this.fechaIni = (map['fechaIni'] as Timestamp).toDate();
+    this.fechaIni = (map['fechaIni'] as Timestamp).toDate();
     this.dias = new List();
   }
 
@@ -42,6 +42,10 @@ class Viaje{
   };
 
 
+String get diaInicio{
+    final format = new DateFormat.MMMMd('es_ES');
+    return format.format(this.fechaIni);
+  }
 
   //Inicializar lista de dias con números de dias del viaje
 

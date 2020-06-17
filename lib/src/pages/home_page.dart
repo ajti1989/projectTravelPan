@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:project_fly/src/blocs/provider.dart';
 import 'package:project_fly/src/model/viaje_model.dart';
+import 'package:project_fly/src/preferencias_usuario/preferencias_usuario.dart';
 
 
 
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
           title: Text('Mis viajes'),
 
         ),
-
+        drawer: _drawer(),
         body: StreamBuilder(
           stream: viajesBloc.viajesStream,
           builder: (BuildContext context, AsyncSnapshot<List<Viaje>> snapshot) {
@@ -36,7 +37,7 @@ class HomePage extends StatelessWidget {
                   itemCount: viajes.length,
                   itemBuilder: (BuildContext context, int index) { 
                     return _itemViaje(viajesBloc, viajes[index], context);
-                  }, 
+                  },  
                 ),
               );
               //hasta que no vengan datos en el stream
@@ -67,14 +68,23 @@ class HomePage extends StatelessWidget {
       key: UniqueKey(),
       onDismissed: (d) => viajesBloc.borrarViaje(viaje.idViaje),
       direction: DismissDirection.startToEnd,
-      child: ListTile(
-        title: Text(viaje.nombre, style: TextStyle(fontSize: 20 ),),
-        trailing: Icon(Icons.more_horiz),
-        onTap: () {
-          //al pulsar carga en stream un viaje
-          viajesBloc.cargarViajeId(viaje.idViaje.trim());
-          Navigator.pushNamed(context, 'viaje');
-        } 
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: Colors.black12)
+          ),
+        ),
+        child: ListTile(
+          title: Text(viaje.nombre, style: TextStyle(fontSize: 20 ),),
+          trailing: Text(viaje.diaInicio),
+          
+          onTap: () {
+            //al pulsar carga en stream un viaje
+            viajesBloc.cargarViajeId(viaje.idViaje.trim());
+            Navigator.pushNamed(context, 'viaje');
+          } 
+        ),
       ),
     );
   }
@@ -98,6 +108,44 @@ class HomePage extends StatelessWidget {
     );
   }
 
-
+  Widget _drawer(){
+      final _prefs = new PreferenciasUsuario();
+    return Drawer(
+      child: SafeArea(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+              decoration: BoxDecoration(
+                color: Colors.blue
+              ),
+              
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Icon(Icons.person),
+                  ),
+                  SizedBox(height: 20,),
+                  Text(_prefs.email, style: TextStyle(color: Colors.white),)
+                ],
+              ) 
+            ),
+            ListTile(
+              trailing: Icon(Icons.add_location),
+              title: Text('Añadir viaje', style: TextStyle(fontSize: 18),),
+            ),
+            Divider(),
+            ListTile(
+              title: Text('Cerrar sesión', style: TextStyle(fontSize: 18)),
+              trailing: Icon(Icons.exit_to_app),
+              onTap: (){},
+            )
+          ],
+        ),
+      ),
+    );
+  }
  
 }
