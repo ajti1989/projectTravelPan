@@ -39,7 +39,6 @@ dependencies:
   flutter_google_places: ^0.2.5
   google_maps_flutter: ^0.5.28+1
   font_awesome_flutter: ^8.8.1
-  flushbar: ^1.10.4
   
   # back_button_interceptor: ^4.2.4
 

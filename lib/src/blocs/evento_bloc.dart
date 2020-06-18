@@ -27,6 +27,10 @@ class EventoBloc{
     await _viajesProvider.crearEvento(refLocalidad, evento);
   }
 
+  //elimnar evento
+  //elimanar un lugar
+  void borrarEvento (DocumentReference evento ) async => await _viajesProvider.eliminarDocumento(evento);
+
   void addEvento(Evento evento){
     List<Evento> eventos = _eventosController.value;
     eventos.add(evento);

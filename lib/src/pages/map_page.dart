@@ -47,7 +47,8 @@ void _onMapCreated(GoogleMapController controller) {
       markerId: MarkerId(lugar.idLugar),
       position: latLngToGeopoint(lugar.coordenadas),
       infoWindow: InfoWindow(title: lugar.nombre),
-      icon: BitmapDescriptor.defaultMarker
+      icon: BitmapDescriptor.defaultMarker,
+      onTap: _abrirInfo()
       );
       
       markers.add(marker);
@@ -64,5 +65,10 @@ void _onMapCreated(GoogleMapController controller) {
     double lat = coordenada.latitude;
     double lng = coordenada.longitude;
     return LatLng(lat, lng);
+  }
+
+  _abrirInfo() async {
+    const url = 'http//as.com';
+    // if(await canLaunch(url))
   }
 }

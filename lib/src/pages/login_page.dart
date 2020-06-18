@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:project_fly/src/blocs/login_bloc.dart';
 import 'package:project_fly/src/providers/usuario_provider.dart';
@@ -17,19 +16,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-   Flushbar(
-    flushbarPosition: FlushbarPosition.BOTTOM,
-    message: "Request Successfully Saved",
-    icon: Icon(
-      Icons.info_outline,
-      size: 28.0,
-      color: Colors.red,
-    ),
-    backgroundColor: Colors.red,
-    duration: Duration(seconds: 5),
-    leftBarIndicatorColor: Colors.red,
-
-  );
+  
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(

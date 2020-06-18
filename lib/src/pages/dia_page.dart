@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_fly/src/blocs/provider.dart';
 import 'package:project_fly/src/model/dia_model.dart';
@@ -23,6 +24,8 @@ class _DiaPageState extends State<DiaPage> {
     final diaBloc = Provider.diaBloc(context);
     final localidadBloc = Provider.localidadBloc(context);
     final eventosBloc = Provider.eventoBloc(context);
+    final lugarBloc = Provider.lugarBloc(context);
+    final viajeBloc = Provider.viajesBloc(context);
     
     return Scaffold(
       appBar: AppBar(
@@ -47,8 +50,8 @@ class _DiaPageState extends State<DiaPage> {
                 localidadBloc.changeLocalidad(localidadBloc.localidades[index]);
                 return Column(
                   children: <Widget>[
-                    _containerLocalidad(context, localidadBloc, eventosBloc),
-                    _listaEventosLugares(localidadBloc.localidad)
+                    _containerLocalidad(context, localidadBloc, eventosBloc, viajeBloc, diaBloc),
+                    _listaEventosLugares(localidadBloc.localidad, lugarBloc, eventosBloc, viajeBloc, diaBloc )
                    
                   ],
                 );
@@ -70,48 +73,85 @@ class _DiaPageState extends State<DiaPage> {
   }
 
   //widget container localidad
-  Widget _containerLocalidad( BuildContext context, LocalidadBloc localidadBloc, EventoBloc eventosBloc){
+  Widget _containerLocalidad( BuildContext context, LocalidadBloc localidadBloc, EventoBloc eventosBloc, ViajesBloc viajesBloc, DiaBloc diaBloc){
     Localidad localidad = localidadBloc.localidad;
     
-    return Container(
-      padding: EdgeInsets.all(20),
-      alignment: Alignment(-1.0,0.0),
-      color: Colors.grey[100],
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(localidad.nombre, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-          IconButton(
-            icon: Icon(Icons.add_circle_outline), 
-            onPressed: () {
-              localidadBloc.changeLocalidad(localidad);
-              // eventosBloc.changeEventos(localidad.eventos);
-              _menuOption(context);
-            }
-          )
-        ],
+    return Dismissible(
+      key: UniqueKey(),
+      background: _dismisContainer(),
+      onDismissed: (d) async {
+        localidadBloc.borrarLocalidad(
+          Firestore.instance.collection('travels')
+          .document(viajesBloc.viaje.idViaje).collection('dias')
+          .document(diaBloc.dia.idDia).collection('localidades')
+          .document(localidad.idLocalidad)
+        );
+        viajesBloc.cargarViajeId(viajesBloc.viaje.idViaje);
+        diaBloc.cargarDia(Firestore.instance.collection('travels')
+        .document(viajesBloc.viaje.idViaje).collection('dias')
+        .document(diaBloc.dia.idDia));
+      },
+      child: Container(
+        padding: EdgeInsets.all(20),
+        alignment: Alignment(-1.0,0.0),
+        color: Colors.grey[100],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(localidad.nombre, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+            IconButton(
+              icon: Icon(Icons.add_circle_outline), 
+              onPressed: () {
+                localidadBloc.changeLocalidad(localidad);
+                // eventosBloc.changeEventos(localidad.eventos);
+                _menuOption(context);
+              }
+            )
+          ],
+        ),
       ),
     );
   }
 
   //Widget para mostra la lista de lugares y eventos
-  Widget _listaEventosLugares(Localidad localidad){
+  Widget _listaEventosLugares(Localidad localidad, LugarBloc lugarBloc, EventoBloc eventoBloc, ViajesBloc viajesBloc, DiaBloc diaBloc){
     return ListView.builder(
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),
       itemCount: localidad.eventosLugares.length,
       itemBuilder: (BuildContext context, int index) {
         dynamic eventoLugar = localidad.eventosLugares[index];
-        return ListTile(
-          contentPadding: EdgeInsets.only(left: 30),
-          title: (eventoLugar is Lugar)
-            ? Text(eventoLugar.nombre)
-            : Text(eventoLugar.nombre
+        return Dismissible(
+          background: _dismisContainer(),
+          direction: DismissDirection.startToEnd,
+          onDismissed: (eventoLugar is Lugar)
+            ? (d) {  lugarBloc.borrarLugar(
+              Firestore.instance.collection('travels')
+                .document(viajesBloc.viaje.idViaje).collection('dias')
+                .document(diaBloc.dia.idDia).collection('localidades')
+                .document(localidad.idLocalidad).collection('lugares')
+                .document(localidad.eventosLugares[index].idLugar));
+              viajesBloc.cargarViajeId(viajesBloc.viaje.idViaje);
+            }
+            : (d) { eventoBloc.borrarEvento(Firestore.instance.collection('travels')
+                .document(viajesBloc.viaje.idViaje).collection('dias')
+                .document(diaBloc.dia.idDia).collection('localidades')
+                .document(localidad.idLocalidad).collection('eventos')
+                .document(localidad.eventosLugares[index].idEvento));
+              viajesBloc.cargarViajeId(viajesBloc.viaje.idViaje);
+            },
+          key: UniqueKey(),
+          child: ListTile(
+            contentPadding: EdgeInsets.only(left: 30),
+            title: (eventoLugar is Lugar)
+              ? Text(eventoLugar.nombre)
+              : Text(eventoLugar.nombre
+            ),
+            subtitle: (eventoLugar is Lugar)
+            ? (eventoLugar.hora != null) ? Text(_horaFormat(eventoLugar.hora)) : Text('')
+            : Text(''),
+           
           ),
-          subtitle: (eventoLugar is Lugar)
-          ? (eventoLugar.hora != null) ? Text(_horaFormat(eventoLugar.hora)) : Text('')
-          : Text(''),
-         
         );
       }, 
     );
@@ -169,5 +209,14 @@ class _DiaPageState extends State<DiaPage> {
     format = (hora <= 9) ? '0$hora:' : '$hora:';
     format += (min <= 9) ? '0$min' : '$min';
     return format;
+  }
+
+   Widget _dismisContainer(){
+    return Container(
+      padding: EdgeInsets.only(left: 10),
+      alignment: Alignment.centerLeft,
+      color: Colors.grey[100],
+      child: Icon(Icons.delete),
+    );
   }
 }           

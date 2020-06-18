@@ -27,8 +27,7 @@ class DiaBloc{
 
   // cargar dia Stream desde provider
   void cargarDia( DocumentReference refDia ) async {
-    final dia = await _viajesProvider.cargaDia(refDia);
-        _diaController.sink.add(dia);
+        _diaController.sink.add(await _viajesProvider.cargaDia(refDia));
       }
     
   //Añade localidad al dia Stream

@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_fly/src/model/evento_model.dart';
 import 'package:project_fly/src/model/localidad_model.dart';
+import 'package:project_fly/src/providers/viaje_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LocalidadBloc{
 
   final _localidadController = BehaviorSubject<Localidad>();
   final _localidadesController = BehaviorSubject<List<Localidad>>();
+  final _viajesProvider = ViajeProvider();
 
   //recuperar los datos del stream
   Stream<Localidad> get localidadStream => _localidadController.stream;
@@ -26,6 +29,10 @@ class LocalidadBloc{
   //valor actual 
   Localidad get localidad => _localidadController.value;
   List<Localidad> get localidades => _localidadesController.value;
+
+
+  //elimanar un lugar
+  void borrarLocalidad (DocumentReference localidad ) async => await _viajesProvider.eliminarDocumento(localidad);
 
   //cierra flujo
   dispose(){

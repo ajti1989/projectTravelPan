@@ -27,6 +27,9 @@ class LugarBloc{
   void crearLugar(DocumentReference refLocalidad, Lugar lugar ) async {
     await _viajesProvider.crearLugar(refLocalidad, lugar);
   }
+
+  //elimanar un lugar
+  void borrarLugar (DocumentReference lugar ) async => await _viajesProvider.eliminarDocumento(lugar);
       
   //cierra flujo
   dispose(){

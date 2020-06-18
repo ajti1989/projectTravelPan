@@ -266,6 +266,22 @@ class ViajeProvider {
     return true;
   }
 
+  //Elimina un viaje específico
+  Future<bool> eliminarDocumento( DocumentReference documento ) async{
+
+    await documento.delete()
+      .catchError((error){
+        print(error);
+        return false;
+      });
+
+    return true;
+  }
+
+ 
+
+
+
   }
 
   
