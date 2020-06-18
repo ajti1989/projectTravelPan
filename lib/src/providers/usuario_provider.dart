@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -15,8 +16,8 @@ class UsuarioProvider{
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-
-  //Crear Usuario por correo
+  ////// API REST //////
+  //Crear Usuario por correo email api rest
   Future register(String email, String password) async{
 
 
@@ -48,7 +49,7 @@ class UsuarioProvider{
 
   }
 
-  //login
+  //login api rest
   Future login( String email, String password ) async{
 
     final authData = {
@@ -77,9 +78,50 @@ class UsuarioProvider{
 
   }
 
+
+
+/////  Authentication /////
+///
+///
+  Future<FirebaseUser> loginEmail(String email, String password) async {
+  
+    try{
+      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final FirebaseUser user = result.user;
+      assert(user != null);
+      assert(await user.getIdToken() != null);
+      final FirebaseUser currentUser = await _auth.currentUser();
+      assert(user.uid == currentUser.uid);
+      _prefs.email = user.email;
+      _prefs.uid = user.uid;
+      user.getIdToken().then((value) {
+        _prefs.token = value.token; 
+      });
+
+      return user;
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  //Registro usuario con AuthFirebase
+  Future<FirebaseUser> registerEmail(email, password) async {
+
+    AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    final FirebaseUser user = result.user;
+
+    assert (user != null);
+    assert (await user.getIdToken() != null);
+
+    return user;
+
+  } 
+
+  // iniciar sesion con google
   Future loginGoogle() async{
 
-    //Login con goole y comprueba la autenticacion
+    //Login con google y comprueba la autenticacion
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
 
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -105,11 +147,9 @@ class UsuarioProvider{
     }else{
       return {'ok': false, 'mensaje': 'Upps tenemos un problema'};
     }
-    
-
-
   }
 
+//estado del usuario
 Future<FirebaseUser> getCurrentUser() async {
   
   FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -121,7 +161,18 @@ Future<FirebaseUser> getCurrentUser() async {
     }
 }
 
+void logOut(){
+  _prefs.token = '';
+  _prefs.email = '';
+  _prefs.uid = '';
+}
   
+Future<void> singnOut(){
+  _prefs.token = '';
+  _prefs.email = '';
+  _prefs.uid = '';
+  return FirebaseAuth.instance.signOut();
+}
 
 
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project_fly/src/blocs/provider.dart';
 import 'package:project_fly/src/model/viaje_model.dart';
 import 'package:project_fly/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:project_fly/src/providers/usuario_provider.dart';
 
 
 
@@ -24,7 +25,7 @@ class HomePage extends StatelessWidget {
           title: Text('Mis viajes'),
 
         ),
-        drawer: _drawer(),
+        drawer: _drawer(context),
         body: StreamBuilder(
           stream: viajesBloc.viajesStream,
           builder: (BuildContext context, AsyncSnapshot<List<Viaje>> snapshot) {
@@ -108,12 +109,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _drawer(){
+  Widget _drawer(BuildContext context){
       final _prefs = new PreferenciasUsuario();
     return Drawer(
       child: SafeArea(
         child: ListView(
           children: <Widget>[
+            //Cabecera Drawer
             DrawerHeader(
               padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
               decoration: BoxDecoration(
@@ -132,15 +134,27 @@ class HomePage extends StatelessWidget {
                 ],
               ) 
             ),
+            //Añadir viaje
             ListTile(
               trailing: Icon(Icons.add_location),
               title: Text('Añadir viaje', style: TextStyle(fontSize: 18),),
             ),
             Divider(),
+            //Cerrar sesion
             ListTile(
               title: Text('Cerrar sesión', style: TextStyle(fontSize: 18)),
               trailing: Icon(Icons.exit_to_app),
-              onTap: (){},
+              onTap: (){
+
+                final usuarioProvider = UsuarioProvider();
+                if(usuarioProvider.getCurrentUser() != null){
+                  usuarioProvider.singnOut();
+                }else{
+                  usuarioProvider.logOut();
+                }
+                Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
+                
+              },
             )
           ],
         ),

@@ -224,7 +224,7 @@ class RegisterPage extends StatelessWidget {
     Map info =  await usuarioProvider.register(bloc.email, bloc.password);
 
     if(info['ok']){
-      Navigator.pushReplacementNamed(context, 'home');
+      Navigator.of(context).pop();
     }else{
       mostrarAlerta(context, info['mensaje']);
     }

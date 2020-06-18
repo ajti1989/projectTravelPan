@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:project_fly/src/blocs/login_bloc.dart';
 import 'package:project_fly/src/providers/usuario_provider.dart';
@@ -15,14 +17,29 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          _crearFondo(context),
-          _loginForm(context),
-        ],
-      )
+   Flushbar(
+    flushbarPosition: FlushbarPosition.BOTTOM,
+    message: "Request Successfully Saved",
+    icon: Icon(
+      Icons.info_outline,
+      size: 28.0,
+      color: Colors.red,
+    ),
+    backgroundColor: Colors.red,
+    duration: Duration(seconds: 5),
+    leftBarIndicatorColor: Colors.red,
+
+  );
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Stack(
+          children: <Widget>[
+            _crearFondo(context),
+            _loginForm(context),
+          ],
+        )
+      ),
     );
   }
 
@@ -126,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           FlatButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, 'register'), 
+            onPressed: () => Navigator.pushNamed(context, 'register'), 
             child: Text('Crear nueva cuenta')
           ),
           SizedBox(height: 50.0,)
@@ -204,12 +221,12 @@ class _LoginPageState extends State<LoginPage> {
 
   _loginEmail(LoginBloc bloc, BuildContext context) async {
     
-    Map info = await usuarioProvider.login(bloc.email, bloc.password);
+    FirebaseUser user = await usuarioProvider.loginEmail(bloc.email, bloc.password);
 
-    if(info['ok']){
+    if(user != null){
       Navigator.pushReplacementNamed(context, 'home');
     }else{
-      mostrarAlerta(context, info['mensaje']);
+      mostrarAlerta(context, 'te has equivocado en algo');
     }
   }
 
